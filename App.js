@@ -2,12 +2,25 @@ import { useState } from 'react'
 import { StyleSheet, Text, View, Button, FlatList, Image } from 'react-native';
 import { StatusBar } from 'expo-status-bar'
 
-import GoalItem from './components/GoalItem'
-import GoalInput from './components/GoalInput'
+import ChatListItem from './components/ChatListItem';
+import Profile from './components/Profile';
 
 export default function App() {
   const [modalIsVisible, setModalIsVisible] = useState(false)
-  const [courseGoals, setCourseGoals] = useState([])
+  const [profiles, setProfiles] = useState([
+    { key: 'akko', username: 'akko', profileImg: 'profile1', zodiacImg: 'rat', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#6661F1' },
+    { key: 'angela', username: 'angela', profileImg: 'profile2', zodiacImg: 'ox', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#FFB700' },
+    { key: 'tommy', username: 'tommy', profileImg: 'profile3', zodiacImg: 'tiger', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt' , color: '#6661F1'},
+    { key: 'bobby', username: 'bobby', profileImg: 'profile4', zodiacImg: 'rabbit', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#FFB700' },
+    { key: 'mary', username: 'mary', profileImg: 'profile5', zodiacImg: 'dragon', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#6661F1' },
+    { key: 'king kong', username: 'king kong', profileImg: 'profile6', zodiacImg: 'snake', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#FFB700' },
+    { key: 'nyankko', username: 'nyankko', profileImg: 'profile7', zodiacImg: 'horse', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#6661F1' },
+    { key: 'wooki', username: 'wookki', profileImg: 'profile8', zodiacImg: 'goat', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#FFB700' },
+    { key: 'thor', username: 'thor', profileImg: 'profile9', zodiacImg: 'monkey', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#6661F1' },
+    { key: 'hulk', username: 'hulk', profileImg: 'profile10', zodiacImg: 'rooster', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#FFB700' },
+    { key: 'spidie', username: 'spidie', profileImg: 'profile11', zodiacImg: 'dog', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#6661F1' },
+    { key: 'apron', username: 'apron', profileImg: 'profile12', zodiacImg: 'pig', text: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt', color: '#FFB700' },
+  ])
 
   function startAddGoalHandler () {
     setModalIsVisible(true)
@@ -40,61 +53,83 @@ export default function App() {
         </View>
         <View style={styles.profileContainer}>
           <Text style={styles.subtitle}>Your daily Dragon friend picks</Text>
-          <View style={styles.profile}>
-            <View style={styles.imageContainer}>
-              <Image style={styles.profileImage} source={require('./assets/images/profile.png')} />
-            </View>
-            <Text style={styles.username}>Angela132</Text>
-            <View style={styles.zodiacContainer}>
-              <Image style={styles.zodiacImage} source={require('./assets/images/dragon.png')} />
-              <Text style={styles.zodiacLabel}>Dragon</Text>
-            </View>
-            <View style={styles.button}>
-              <Text style={styles.buttonText}>Chat</Text>
-            </View>
-          </View>
+          <FlatList 
+            data={profiles} 
+            horizontal={true}
+            renderItem={(itemData) => {
+              return (
+                <View style={styles.profileCardContainer}>
+                  <Profile 
+                    profile={itemData.item}
+                    key={itemData.item.key}
+                  />
+                </View>
+              )
+            }}
+          />
         </View>
         <View style={styles.chatContainer}>
           <Text style={styles.subtitle}>Friends</Text>
-          <View>
-            <View>
-              <Image /> 
-              <View>
-                <View>
-                  <Image />
-                  <Text></Text>
-                </View>
-                <Text></Text>
-              </View>
-            </View>
-          </View>
-        </View>
-        {/* <Button 
-          title='Add New Zodiac' 
-          color="#6661F1" 
-          onPress={startAddGoalHandler}/>
-        <View style={styles.imageContainer}>
-          <Image style={styles.image} source={require('./assets/images/rabbit_head_3D.png')} />
-        </View>
-        <GoalInput visible={modalIsVisible} 
-          addGoalHandler={addGoalHandler} 
-          onCancel={endAddGoalHandler}
-        />
-        <View style={styles.goalsContainer}>
           <FlatList 
-            data={courseGoals} 
+            data={profiles} 
             renderItem={(itemData) => {
               return (
-                <GoalItem 
-                  text={itemData.item.text} 
+                <ChatListItem
+                  profile={itemData.item} 
                   id={itemData.item.key} 
-                  deleteGoalHandler={deleteGoalHandler} 
                 />
               )
             }}
-            alwaysBounceVertical={false}
           />
-        </View> */}
+          {/* <ChatListItem 
+            username='frankie12'
+            // profileImg='../assets/images/profile3.png'
+            // zodiacImg='../assets/images/snake.png'
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          />
+          <ChatListItem 
+            username='sara12'
+            // profileImg={require('../assets/images/profile4.png')}
+            // zodiacImg={require('../assets/images/tiger.png')}
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          />
+          <ChatListItem 
+            username='mango12'
+            // profileImg='../assets/images/profile6.png'
+            // zodiacImg='../assets/images/dragon.png'
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          />
+          <ChatListItem 
+            username='toy312'
+            // profileImg='../assets/images/profile7.png'
+            // zodiacImg='../assets/images/snake.png'
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          /> */}
+          {/* <ChatListItem 
+            username='frankie12'
+            profileImg='../assets/images/profile3.png'
+            zodiacImg='../assets/images/snake.png'
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          />
+          <ChatListItem 
+            username='sara12'
+            profileImg={require('../assets/images/profile4.png')}
+            zodiacImg={require('../assets/images/tiger.png')}
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          />
+          <ChatListItem 
+            username='mango12'
+            profileImg='../assets/images/profile6.png'
+            zodiacImg='../assets/images/dragon.png'
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          />
+          <ChatListItem 
+            username='toy312'
+            profileImg='../assets/images/profile7.png'
+            zodiacImg='../assets/images/snake.png'
+            text="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt"
+          /> */}
+        </View>
       </View>
     </>
   );
@@ -134,14 +169,14 @@ const styles = StyleSheet.create({
     marginVertical: 10,
     padding: 10,
   },
-  // goalsContainer: {
-  //   flex: 5,
-  // }, 
   imageContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 16,
+  },
+  profileCardContainer: {
+    marginHorizontal: 10,
   },
   profileImage: {
     width: 90, 
@@ -168,8 +203,6 @@ const styles = StyleSheet.create({
     height: 24, 
   },
   zodiacLabel: {
-    // width: 66,
-    // height: 24, 
     fontSize: 16,
     color: '#ffffff'
   }, 
@@ -182,5 +215,29 @@ const styles = StyleSheet.create({
   }, 
   buttonText: {
     color: '#6661F1', 
+  },
+  chatListItem: {
+    flexDirection: 'row',
+    paddingVertical: 5,
+    justifyContent: 'center'
+  },
+  friendImageContainer: {
+    flex: 1,
+    justifyContent: 'center'
+  },
+  friendImage: {
+    width: 56, 
+    height: 56, 
+  },
+  chatTextSection: {
+    flex: 5, 
+    justifyContent: 'center',
+    padding: 10,
+  },
+  chatNameSection: {
+    flexDirection: 'row'
+  }, 
+  friendName: {
+    marginLeft: 2,
   }
 });
